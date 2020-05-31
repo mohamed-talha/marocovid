@@ -1,0 +1,103 @@
+<!DOCTYPE HTML>
+<!--
+	Telephasic by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>MaroCovid</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="assets/css/jquery-confirm.min.css">
+	</head>
+	
+	<body class="homepage is-preload" style="background-image: url(images/maroc-flag3.png);">
+	
+		<div id="page-wrapper">
+
+			<!-- Header -->
+				<div id="header-wrapper">
+					<div id="header" class="container">
+
+						<!-- Logo -->
+							<img src="images/logo-2.png">
+
+						<!-- Nav -->
+							<nav id="nav">
+								<ul>
+									<li><a href="create-account.html">فتح حساب جديد</a></li>
+									<li><a href="my-status.html">الإطلاع على البيانات</a></li>
+									<li><a href="new-infection.html">الإعلان عن الإصابات</a></li>
+									<li>
+										<a href="#">Language / Langue / اللغة</a>
+										<ul>
+											<li><a href="./../pact-en/index.html">English</a></li>
+											<li><a href="./../pact-en/index.html">Français</a></li>
+										</ul>
+									</li>									
+								</ul>
+							</nav>
+					</div>
+					
+
+					<!-- Hero -->
+						<section id="hero" class="container">
+							<header>
+								<img src="images/contacts.png"/>
+							</header>							
+							<table id="TableStats">
+								<col width="20px" />
+								<col width="100px" />
+								<tr>
+									<td id="direct" rowspan="2" style="text-align: right;color: red; font-size: 40px; vertical-align:middle; padding-right: 0px">0</td>
+									<td style="text-align: left; color: green; font-size: 30px; padding-bottom:0;">:اتصال مباشر</td>
+								</tr>
+								<tr>
+									<td style="text-align: left; color: #2f5687; padding-top:0px; padding-bottom:15px;">(مع شخص إيجابي مؤكد)</td>
+								</tr>
+								<tr>
+									<td id="indirect" rowspan="2" style="text-align: right; color: red; font-size: 40px; vertical-align:middle; padding-right: 0px">0</td>
+									<td style="text-align: left; color: green; font-size: 30px; padding-bottom:0;">:اتصال غير مباشر</td>
+								</tr>
+								<tr>
+									<td style="text-align: left; color: #2f5687; padding-top:0;">(من خلال شخص إيجابي محتمل)</td>
+								</tr>
+							</table>  
+							<div id="accountInfos"/>
+							<!-- Scripts -->
+								<script src="assets/js/jquery.min.js"></script>
+								<script src="assets/js/jquery.dropotron.min.js"></script>
+								<script src="assets/js/browser.min.js"></script>
+								<script src="assets/js/breakpoints.min.js"></script>
+								<script src="assets/js/util.js"></script>
+								<script src="assets/js/main.js"></script>
+								<script src="assets/js/jquery-confirm.min.js"></script>							
+								<script>
+									const queryString = window.location.search;
+									const urlParams = new URLSearchParams(queryString);
+									const error = urlParams.get('error')
+									if (error != 0) {
+										$.confirm({
+											title: 'عطب تقني',
+											content: 'المعذرة، يرجى إعادة العملية لاحقا',
+											buttons: {
+												أغلق: function () {
+													window.location=document.referrer;
+												}
+											}
+										});
+									} else {
+										document.getElementById("direct").innerHTML = urlParams.get('direct');
+										document.getElementById("indirect").innerHTML = urlParams.get('indirect');
+									}									
+								</script>
+							</div>
+							<br/>
+							<p style="color: #2f5687;">MaroCovid 2020 &copy; جميع الحقوق محفوظة</p>
+						</section>
+				</div>
+		</div>
+	</body>
+</html>

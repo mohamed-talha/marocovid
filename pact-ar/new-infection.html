@@ -1,0 +1,151 @@
+<!DOCTYPE HTML>
+<!--
+	Telephasic by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>MaroCovid</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="assets/css/jquery-confirm.min.css">
+	</head>
+	<body class="homepage is-preload">
+		<div id="page-wrapper">
+
+			<!-- Header -->
+				<div id="header-wrapper">
+					<div id="header" class="container">
+
+						<!-- Logo -->
+						<img src="images/logo.png">
+
+						<!-- Nav -->
+							<nav id="nav">
+								<ul>
+									<li><a href="create-account.html">فتح حساب جديد</a></li>
+									<li><a href="my-status.html">الإطلاع على البيانات</a></li>
+									<li><a href="new-infection.html">الإعلان عن الإصابات</a></li>
+									<li>
+										<a href="#">Language / Langue / اللغة</a>
+										<ul>
+											<li><a href="./../pact-en/index.html">English</a></li>
+											<li><a href="./../pact-en/index.html">Français</a></li>
+										</ul>
+									</li>									
+								</ul>
+							</nav>
+					</div>
+
+					<!-- Hero -->
+					<section id="hero" class="container">
+						<header>
+							<h2>الكشف عن إصابة</h2>
+						</header>
+						<br/>
+						<div id="ReportInfection"/>
+							<form id="formReportInfection" method="get">
+								<div class="row gtr-50">
+									<div class="col-6 col-12-mobile">
+										<input id="userId" placeholder="الإسم المستعار للمستخدم المصاب" type="text" style="text-align:right;"/>
+									</div>
+									<div class="col-6 col-12-mobile">
+										<input id="agentId" placeholder="الرمز المؤقت للإبلاغ عن الإصابة" type="text" style="text-align:right;"/>
+									</div>										
+									<div class="col-12">
+										<ul class="actions">
+											<li><input type="button" value="تسجيل الإصابة" class="button" onclick="reportInfection();"/></li>
+										</ul>
+									</div>
+								</div>
+							</form>
+						</div>
+						<p>MaroCovid 2020 &copy; جميع الحقوق محفوظة</p>
+					</section>
+				</div>
+		</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.dropotron.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+			<script src="assets/js/jquery-confirm.min.js"></script>
+
+		<!-- Call REST API -->
+		<script>
+			function reportInfection() {
+				var userId = document.getElementById('userId').value;
+				var agentId = document.getElementById('agentId').value;
+				if (userId.length > 2 && agentId.length > 2) {
+					$.confirm({
+						title: 'تسجيل الإصابة',
+						content: 'سيتم تسجيل إصابة المستخدم. المرجو تأكيد العملية',
+						buttons: {
+							نعم: function () {
+								reportInfectionExec();
+							},
+							لا: function () {
+								$.confirm({
+									title: 'تسجيل الإصابة',
+									content: 'تم إلغاء عملية تسجيل إصابة المستخدم',
+									buttons: {
+										أغلق: function () {}
+									}
+								});
+							}
+						}
+					});					
+				} else {
+					$.confirm({
+						title: 'تسجيل الإصابة',
+						content: 'المرجو إدخال المعلومات الصحيحة',
+						buttons: {
+							أغلق: function () {}
+						}
+					});
+				}				
+			}
+			
+			function reportInfectionExec() {				
+				let url = "http://82.65.101.170:8083/infection/reportInfection";
+
+				var date = new Date();/* local time */
+				date.setHours(0,0,0,0);/* at midnight */
+
+				let data = {
+				  infectionUserId: document.getElementById('userId').value,
+				  infectionDate: Math.floor(date / 1000),/* in timestamp */
+				  infectionReporterId: document.getElementById('agentId').value
+				}
+
+				let fetchData = { 
+					method: 'POST',     
+					headers: {
+					  'Accept': 'application/json',
+					  'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(data)
+				}
+
+				fetch(url, fetchData)
+				.then((resp) => resp.json())
+				.then(function(infection) {
+					$.confirm({
+						title: 'تسجيل الإصابة',
+						content: 'تم تسجيل إصابة المستخدم بنجاح. شكراً لكم',
+						buttons: {
+							أغلق: function () {
+								window.location.href = "new-infection-reply.html?error=0&id=" + infection.infectionUserId + "&direct=" + infection.directContacts.replace("[", "(").replace("]", ")") + "&indirect=" + infection.indirectContacts.replace("[", "(").replace("]", ")");
+							}
+						}
+					});
+				});
+			}
+		</script>			
+	</body>
+</html>

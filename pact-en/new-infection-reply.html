@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<!--
+	Telephasic by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>MaroCovid</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body class="homepage is-preload" style="background-image: url(images/maroc-flag3.png);">
+		<div id="page-wrapper">
+
+			<!-- Header -->
+				<div id="header-wrapper">
+					<div id="header" class="container">
+
+						<!-- Logo -->
+							<img src="images/logo-2.png">
+
+						<!-- Nav -->
+							<nav id="nav">
+								<ul>
+									<li><a href="create-account.html">Create Account</a></li>
+									<li><a href="my-status.html">My Status</a></li>
+									<li><a href="new-infection.html">New Infection</a></li>
+									<li>
+										<a href="#">Language/Langue/اللغة</a>
+										<ul>
+											<li><a href="./../pact-ar/index.html">Français</a></li>
+											<li><a href="./../pact-ar/index.html">عربى</a></li>
+										</ul>
+									</li>									
+								</ul>
+							</nav>
+
+					</div>
+
+					<!-- Hero -->
+						<section id="hero" class="container">
+							<header>
+								<h2 style="color: #2f5687; font-size:30px;">Infection enregistrée</h2>
+							</header>
+							<div id="reportInfos"/>
+								<script>
+									const queryString = window.location.search;
+									const urlParams = new URLSearchParams(queryString);
+									const error = urlParams.get('error')
+									if (error != 0) {
+										alert("Error, please retry");
+									} else {
+										var directContacts = urlParams.get('direct') == 'null' ? 'No One' : urlParams.get('direct').replace("(", "[").replace(")", "]");
+										var indirectContacts = urlParams.get('indirect') == 'null' ? 'No One' : urlParams.get('indirect').replace("(", "[").replace(")", "]");
+										var direct = "<div style='color:green; font-size:25px;'>Direct contacts: </div><div style='color:red; font-size:25px;'>" + directContacts + "</div>";
+										var indirect = "<div style='color:green; font-size:25px;'>Indirect contacts: </div><div style='color:red; font-size:25px;'>" + indirectContacts + "</div>";
+										document.getElementById("reportInfos").innerHTML = direct + "<br />" + indirect;
+									}
+								</script>
+							</div>
+							<br/>
+							<p style="color: #2f5687;">&copy; 	MaroCovid. All rights reserved.</p>
+						</section>
+				</div>
+		</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.dropotron.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+			
+	</body>
+</html>
